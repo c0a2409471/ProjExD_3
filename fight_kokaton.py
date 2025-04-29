@@ -139,7 +139,18 @@ class Bomb:
             self.vy *= -1
         self.rct.move_ip(self.vx, self.vy)
         screen.blit(self.img, self.rct)
-
+class Score:
+    """
+    打ち落とした爆弾の数を表示するスコアクラス
+    """
+    def __init__(self):
+        self.fonto=pg.font.SysFont("hgp創英角ﾎﾟｯﾌﾟ体", 30)
+        self.ten=0
+        self.txt = self.fonto.render(f"スコア：{self.ten}",0,(0,0,255))
+        self.zahyo = ((100,HEIGHT-50))
+    def update(self,screen:pg.Surface):
+        self.txt = self.fonto.render(f"スコア：{self.ten}",0,(0,0,255))
+        screen.blit(self.txt,self.zahyo)
 
 def main():
     pg.display.set_caption("たたかえ！こうかとん")
@@ -151,6 +162,7 @@ def main():
     bombs=[Bomb((255, 0, 0), 10) for i in range(NUM_OF_BOMBS)] #↓二行の内包表記
     # for i in range(NUM_OF_BOMBS):
     #     bombs.append(Bomb((255, 0, 0), 10))
+    score =Score()
     clock = pg.time.Clock()
     tmr = 0
     while True:
@@ -182,6 +194,7 @@ def main():
                     beam = None #ビームを消す
                     bombs[j] = None #爆弾を消す
                     bird.change_img(6,screen) #よろこびえふぇくと
+                    score.ten+=1
             bombs = [bomb for bomb in bombs if bomb is not None] #撃ち落されてない爆弾だけのリストに更新
 
         key_lst = pg.key.get_pressed()
@@ -190,6 +203,8 @@ def main():
             beam.update(screen)
         for bomb in bombs:
             bomb.update(screen)
+        if Score is not None:
+            score.update(screen)
         pg.display.update()
         tmr += 1
         clock.tick(50)
