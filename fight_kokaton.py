@@ -162,7 +162,7 @@ class Explosion:
         self.imgs=[self.img2,self.img_flip]
         self.rct=self.img2.get_rect()
         self.rct.center=bomb.rct.center
-        self.life=3      
+        self.life=3                   
     def update(self,screen:pg.Surface):
         self.life-=1
         if self.life >0:
